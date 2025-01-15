@@ -46,11 +46,22 @@ def get_pet_labels(image_dir):
     for filename in file_list:
         if filename.startswith('.'):
             continue
-        label = os.path.splitext(filename)[0]  # Remove file extension
-        label = label.lower()  # Convert to lowercase
-        label = label.replace('_', ' ')  # Replace underscores with spaces
-        label = ''.join([c for c in label if not c.isdigit()])  # Remove digits
-        label = label.strip()  # Remove leading/trailing whitespace
-        results_dic[filename] = [label]
-
+        results_dic[filename] = [(__process_image_label(filename))]
     return results_dic
+
+"""
+Private method to process an individual image file name into a label.
+
+Args:
+    filename (str): The name of the image file.
+
+Returns:
+    str: The processed label.
+"""
+def __process_image_label(filename):
+    label = os.path.splitext(filename)[0]  # Remove file extension
+    label = label.lower()  # Convert to lowercase
+    label = label.replace('_', ' ')  # Replace underscores with spaces
+    label = ''.join([c for c in label if not c.isdigit()])  # Remove digits
+    label = label.strip()  # Remove leading/trailing whitespace
+    return label
